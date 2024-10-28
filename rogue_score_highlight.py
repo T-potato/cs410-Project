@@ -2,7 +2,7 @@ from datasets import load_dataset
 from rouge_score import rouge_scorer
 import numpy as np
 
-def calculate_rouge_with_highlight(dataset, model, tokenizer, max_input_length=1024, max_summary_length=150):
+def calculate_rouge(dataset, model, tokenizer, max_input_length=1024, max_summary_length=150):
     """
     Evaluates ROUGE scores for the entire dataset with BART.
 
@@ -42,5 +42,5 @@ def calculate_rouge_with_highlight(dataset, model, tokenizer, max_input_length=1
     }
 
 # Run evaluation on the dataset
-rouge_scores = calculate_rouge_for_bart(dataset, model, tokenizer)
+rouge_scores = calculate_rouge(dataset, model, tokenizer)
 print("ROUGE Scores:", rouge_scores)
