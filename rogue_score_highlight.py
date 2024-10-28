@@ -40,7 +40,7 @@ def calculate_rouge(dataset, model_type="bart", max_input_length=1024, max_summa
     }
 
 # Example usage
-dataset = load_dataset("cnn_dailymail", "3.0.0", split="test")  # Adjust to "train" or "validation" as needed
+dataset = load_dataset("cnn_dailymail", "3.0.0", split="test") 
 
 # Evaluate with BART
 bart_rouge_scores = calculate_rouge(dataset, model_type="bart")
