@@ -10,6 +10,8 @@ function App() {
   const [summary, setSummary] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [modelType, setModelType] = useState("bart");
+  const [maxSummaryLength, setMaxSummaryLength] = useState(150);
 
   const handleTextInputChange = (e) => {
     setText(e.target.value);
@@ -54,7 +56,12 @@ function App() {
 
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:5000/inference", { text });
+      const response = await axios.post("http://localhost:5000", {
+        text: text,
+        model_type: modelType,
+        max_summary_length: maxSummaryLength,
+      });
+      // const response = await axios.get("http://localhost:5000");
       setSummary(response.data.summary || "No summary received.");
     } catch (error) {
       console.error("Error sending request:", error);
@@ -80,6 +87,30 @@ function App() {
         <br />
         <input type="file" accept=".pdf" onChange={handlePdfUpload} />
         <br />
+        <div style={{ margin: "10px 0" }}>
+          <label>
+            Model Type:
+            <select
+              value={modelType}
+              onChange={(e) => setModelType(e.target.value)}
+              style={{ marginLeft: "10px" }}
+            >
+              <option value="bart">BART</option>
+              <option value="t5">T5</option>
+            </select>
+          </label>
+          <br />
+          <br />
+          <label>
+            Max Summary Length:
+            <input
+              type="number"
+              value={maxSummaryLength}
+              onChange={(e) => setMaxSummaryLength(Number(e.target.value))}
+              style={{ marginLeft: "10px" }}
+            />
+          </label>
+        </div>
         <button
           onClick={handleSubmit}
           style={{
