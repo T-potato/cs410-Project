@@ -61,11 +61,14 @@ function App() {
         model_type: modelType,
         max_summary_length: maxSummaryLength,
       });
-      // const response = await axios.get("http://localhost:5000");
       setSummary(response.data.summary || "No summary received.");
     } catch (error) {
       console.error("Error sending request:", error);
-      alert("Failed to retrieve summary. Please try again.");
+      if (error.response?.data?.detail?.includes("Fine-tuned model not found")) {
+        alert("Fine-tuned model not found. Please run train_summarizer.py first to use this option.");
+      } else {
+        alert("Failed to retrieve summary. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -96,6 +99,7 @@ function App() {
               style={{ marginLeft: "10px" }}
             >
               <option value="bart">BART</option>
+              <option value="bart-finetuned">BART (Fine-tuned)</option>
               <option value="t5">T5</option>
             </select>
           </label>
